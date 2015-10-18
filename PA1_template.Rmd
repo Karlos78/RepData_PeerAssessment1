@@ -62,7 +62,7 @@ na_count <- sum(is.na(steps_data$steps))
 
 The data set has `r na_count` NA values.
 
-As a very basic first try, we shall replace all NAs with the average step count taken over all intervals measured.
+As a very basic first try, we shall create a copy of the dataset and replace all NAs with the average step count taken over all intervals measured.
 
 ```{r warning = FALSE}
 int_ave <- mean(steps_data$steps, na.rm = TRUE)
@@ -70,12 +70,14 @@ steps_data_imput <- steps_data
 steps_data_imput[is.na(steps_data_imput$steps)] <- int_ave
 ```
 
-Now plot a histogram showing both data sets.
+Now plot a histogram of the new data set.
 
 ```{r}
 agg_steps_imput <- as.data.frame(steps_data_imput[,j=list(total_steps=sum(steps)),by=date])
 hist(agg_steps_imput$total_steps, xlab = "Total Steps (NAs replaced)", main = "Histogram of Daily Total Steps (NAs replaced)")
 ```
+
+Calculate the new mean and median, then compare with their previous values.
 
 ```{r new averages}
 new_mn <- round(mean(agg_steps_imput$total_steps, na.rm=TRUE))
